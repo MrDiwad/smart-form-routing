@@ -6,7 +6,7 @@ A modern contact form that automatically categorizes messages using AI and sends
 
 1. User fills out a contact form on a nice landing page
 2. Form sends data to n8n (automation tool)
-3. AI (Claude) analyzes the message and decides:
+3. AI (Groq) analyzes the message and decides:
    - **Category**: complaint, return request, or other
    - **Urgency**: 1-5 scale
 4. Message gets posted to Discord with all the info
@@ -14,14 +14,14 @@ A modern contact form that automatically categorizes messages using AI and sends
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: HTML, CSS, JavaScript (no frameworks!)
+- **Frontend**: HTML, CSS, JavaScript
 - **Backend**: n8n workflow automation
-- **AI**: Claude API for smart categorization
+- **AI**: Groq API for smart categorization
 - **Notifications**: Discord webhooks
 
 ## ✨ Features
 
-- Clean, responsive design (inspired by Claude's UI)
+- Clean, responsive design
 - Real-time form validation
 - AI-powered message analysis
 - Automatic Discord notifications
