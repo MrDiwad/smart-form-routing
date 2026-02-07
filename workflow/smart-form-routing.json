@@ -1,0 +1,132 @@
+{
+  "name": "smart-form-routing",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "/contact-form",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -48,
+        -96
+      ],
+      "id": "c74d6af7-89dd-45bf-8fa0-6f56735be30e",
+      "name": "Webhook",
+      "webhookId": "1579c165-4be2-46d1-ae15-ae45dc8ebc3f"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=New message from Form:\n{{ $json.output }}\nName: {{ $('Webhook').item.json.body.name }}\nEmail: {{ $('Webhook').item.json.body.email }}\nMessage: {{ $('Webhook').item.json.body.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -96
+      ],
+      "id": "8d34c52d-b00f-4810-9884-89cc8404b351",
+      "name": "Discord",
+      "webhookId": "ce20ddf4-2af5-4adc-b053-b636e8607e1c",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "aZDNk8M5qfGuPJDr",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are AI assistant in e-commerce shop. You get a message from a customer. Declare if it is RETURN, COMPLAINT or OTHER. Define the urgency of case in scale from 1 to 5. Respond by providing category (RETURN, COMPLAINT or OTHER) and provide the urgency Message:  {{ $json.body.message }}. REPLY LIKE THIS:\nCategory: {category}\nUrgency: {number}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        192,
+        -96
+      ],
+      "id": "ea2e3166-4e50-4533-bf66-16438d104624",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        192,
+        144
+      ],
+      "id": "233270c6-52b5-4717-a3df-63b53dd35f00",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "1tHHVfTz6v1tU8LZ",
+          "name": "Groq account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord": {
+      "main": [
+        []
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a8c69385-b65e-4bb3-88bc-0ba17b01e9b3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c5b62b4e16fe61c8ef178ee44317cd8fc257d5c9205a587d4a548e8f3adae38e"
+  },
+  "id": "PS9zfCYFoQEOKHctQhUEP",
+  "tags": []
+}
